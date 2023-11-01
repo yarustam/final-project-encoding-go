@@ -11,13 +11,13 @@ import (
 )
 
 type JSONData struct {
-	User       *models.User
+	User       *models.DockerCompose
 	fileInput  string
 	fileOutput string
 }
 
 type YAMLData struct {
-	User       *models.User
+	User       *models.DockerCompose
 	fileInput  string
 	fileOutput string
 }

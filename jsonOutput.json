@@ -1,0 +1,1 @@
+{"Version":"3","Services":{"Web":{"Build":".","Ports":["5000:5000"],"Volumes":["/usercode/:/code"],"Links":["database:backenddb"]},"Database":{"Image":"mysql/mysql-server:5.7","Environment":["MYSQL_ROOT_PASSWORD=root","MYSQL_USER=testuser","MYSQL_PASSWORD=admin123","MYSQL_DATABASE=backend"],"Volumes":["/usercode/db/init.sql:/docker-entrypoint-initdb.d/init.sql"]}}}

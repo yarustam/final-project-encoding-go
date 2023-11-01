@@ -17,14 +17,43 @@ func CreateJSONFile() {
 
 	defer jsonFile.Close()
 
-	user := models.User{
-		ID:       "D45Gt72",
-		Name:     "Вадим",
-		Email:    "vadim_ka@email.com",
-		Password: "IwBkn19hsF",
+	ports := []string{"5000:5000"}
+	volumes := []string{"/usercode/:/code"}
+	links := []string{"database:backenddb"}
+
+	web := models.Web{
+		Build:   ".",
+		Ports:   ports,
+		Volumes: volumes,
+		Links:   links,
 	}
 
-	out, err := json.Marshal(&user)
+	environment := []string{
+		"MYSQL_ROOT_PASSWORD=root",
+		"MYSQL_USER=testuser",
+		"MYSQL_PASSWORD=admin123",
+		"MYSQL_DATABASE=backend",
+	}
+
+	volumes = []string{"/usercode/db/init.sql:/docker-entrypoint-initdb.d/init.sql"}
+
+	database := models.Database{
+		Image:       "mysql/mysql-server:5.7",
+		Environment: environment,
+		Volumes:     volumes,
+	}
+
+	services := models.Services{
+		Web:      web,
+		Database: database,
+	}
+
+	dockerCompose := models.DockerCompose{
+		Version:  "3",
+		Services: services,
+	}
+
+	out, err := json.Marshal(&dockerCompose)
 	if err != nil {
 		fmt.Printf("json encoding fail: %s", err.Error())
 	}
@@ -43,14 +72,43 @@ func CreateYAMLFile() {
 
 	defer yamlFile.Close()
 
-	user := models.User{
-		ID:       "NV343GF",
-		Name:     "Виталик",
-		Email:    "vitamin@emil.com",
-		Password: "BadPassword",
+	ports := []string{"5000:5000"}
+	volumes := []string{"/usercode/:/code"}
+	links := []string{"database:backenddb"}
+
+	web := models.Web{
+		Build:   ".",
+		Ports:   ports,
+		Volumes: volumes,
+		Links:   links,
 	}
 
-	out, err := yaml.Marshal(&user)
+	environment := []string{
+		"MYSQL_ROOT_PASSWORD=root",
+		"MYSQL_USER=testuser",
+		"MYSQL_PASSWORD=admin123",
+		"MYSQL_DATABASE=backend",
+	}
+
+	volumes = []string{"/usercode/db/init.sql:/docker-entrypoint-initdb.d/init.sql"}
+
+	database := models.Database{
+		Image:       "mysql/mysql-server:5.7",
+		Environment: environment,
+		Volumes:     volumes,
+	}
+
+	services := models.Services{
+		Web:      web,
+		Database: database,
+	}
+
+	dockerCompose := models.DockerCompose{
+		Version:  "3",
+		Services: services,
+	}
+
+	out, err := yaml.Marshal(&dockerCompose)
 	if err != nil {
 		fmt.Printf("yaml encoding fail: %s", err.Error())
 	}
