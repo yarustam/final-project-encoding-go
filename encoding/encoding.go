@@ -1,4 +1,4 @@
-package precode
+package encoding
 
 import (
 	"github.com/Yandex-Practicum/final-project-encoding-go/models"
